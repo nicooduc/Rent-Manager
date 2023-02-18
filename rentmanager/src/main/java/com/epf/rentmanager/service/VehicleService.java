@@ -29,17 +29,18 @@ public class VehicleService {
 	
 	public long create(Vehicle vehicle) throws ServiceException {
 		// TODO: créer un véhicule
-		
+
+		return 0;
 	}
 
 	public Vehicle findById(long id) throws ServiceException {
 		// TODO: récupérer un véhicule par son id
-		
+		return null;
 	}
 
 	public List<Vehicle> findAll() throws ServiceException {
 		// TODO: récupérer tous les clients
-		
+		return null;
 	}
 	
 }

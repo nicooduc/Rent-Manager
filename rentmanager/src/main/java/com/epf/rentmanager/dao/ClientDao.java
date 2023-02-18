@@ -11,7 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.epf.rentmanager.exception.DaoException;
+import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.persistence.ConnectionManager;
+
+import javax.swing.plaf.nimbus.State;
 
 public class ClientDao {
 	
@@ -38,11 +42,46 @@ public class ClientDao {
 	}
 
 	public Client findById(long id) throws DaoException {
+		try {
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement preparedStatement = connection.createStatement(id);
+			ResultSet rs = preparedStatement.executeQuery(FIND_CLIENT_QUERY);
+			while (rs.next()) {
+				long id2 = (rs.getInt("id"));
+				String nom = (rs.getString("nom"));
+				String prenom = (rs.getString("prenom"));
+				String email = (rs.getString("email"));
+				LocalDate naissance = (rs.getDate("naissance").toLocalDate());
+
+				//clients.add(new Client(id, nom, prenom, email, naissance));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DaoException();
+		}
 		return new Client();
 	}
 
-	public List<Client> findAll() throws DaoException {
-		return new ArrayList<Client>();
+	public List<Client> findAll() throws DaoException, SQLException {
+		List<Client> clients = new ArrayList<Client>();
+		try {
+			Connection connection = ConnectionManager.getConnection();
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery(FIND_CLIENTS_QUERY);
+			while (rs.next()) {
+				long id = (rs.getInt("id"));
+				String nom = (rs.getString("nom"));
+				String prenom = (rs.getString("prenom"));
+				String email = (rs.getString("email"));
+				LocalDate naissance = (rs.getDate("naissance").toLocalDate());
+
+				clients.add(new Client(id, nom, prenom, email, naissance));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DaoException();
+		}
+		return clients;
 	}
 
 }

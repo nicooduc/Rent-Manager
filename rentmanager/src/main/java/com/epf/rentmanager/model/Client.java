@@ -1,10 +1,13 @@
 package com.epf.rentmanager.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
+
 public class Client   {
+
+    private long id;
     private String nom;
     private String prenom;
-    private long id;
     private String email;
     private LocalDate naissance;
 
@@ -48,7 +51,7 @@ public class Client   {
         this.naissance = naissance;
     }
 
-    public Client(String lastname, String firstname, long id, String mail, LocalDate birthdate) {
+    public Client( long id, String lastname, String firstname,String mail, LocalDate birthdate) {
         this.nom = lastname;
         this.prenom = firstname;
         this.id = id;
@@ -57,6 +60,19 @@ public class Client   {
     }
 
     public Client() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Client)) return false;
+        Client client = (Client) o;
+        return id == client.id && Objects.equals(nom, client.nom) && Objects.equals(prenom, client.prenom) && Objects.equals(email, client.email) && Objects.equals(naissance, client.naissance);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nom, prenom, id, email, naissance);
     }
 
     @java.lang.Override
