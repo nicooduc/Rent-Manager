@@ -39,10 +39,22 @@ public class ReservationDao {
     private static final String FIND_RESERVATIONS_QUERY = "SELECT id, client_id, vehicle_id, debut, fin FROM Reservation;";
 
     public long create(Reservation reservation) throws DaoException {
+        // TODO creer un reservation
+        return 0;
+    }
+
+    public long update(Reservation reservation) throws DaoException {
+        // TODO update une reservation
         return 0;
     }
 
     public long delete(Reservation reservation) throws DaoException {
+        // TODO supprimer une reservation
+        return 0;
+    }
+
+    public long count() throws DaoException {
+        // TODO compter le nombre de reservations
         return 0;
     }
 

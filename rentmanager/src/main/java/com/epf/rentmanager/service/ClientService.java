@@ -26,8 +26,49 @@ public class ClientService {
     }
 
     public long create(Client client) throws ServiceException {
-        // TODO: créer un client
-        return 0;
+        try {
+            if (null == client.getNom() || null == client.getPrenom()) {
+                throw new ServiceException();
+            } else {
+                client.setNom(client.getNom().toUpperCase());
+                return ClientDao.getInstance().create(client);
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException();
+        }
+    }
+
+    public long update(Client client) throws ServiceException {
+        try {
+            if (null == client.getNom() || null == client.getPrenom()) {
+                throw new ServiceException();
+            } else {
+                client.setNom(client.getNom().toUpperCase());
+                return ClientDao.getInstance().update(client);
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException();
+        }
+    }
+
+    public long delete(Client client) throws ServiceException {
+        try {
+            return ClientDao.getInstance().delete(client);
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException();
+        }
+    }
+
+    public long count() throws ServiceException {
+        try {
+            return ClientDao.getInstance().count();
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException();
+        }
     }
 
     public Client findById(long id) throws ServiceException {

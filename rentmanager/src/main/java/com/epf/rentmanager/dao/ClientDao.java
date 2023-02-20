@@ -1,10 +1,6 @@
 package com.epf.rentmanager.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +29,34 @@ public class ClientDao {
     private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
 
     public long create(Client client) throws DaoException {
+        try {
+            Connection connection = ConnectionManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_CLIENT_QUERY);
+            preparedStatement.setString(1, client.getNom());
+            preparedStatement.setString(2, client.getPrenom());
+            preparedStatement.setString(3, client.getEmail());
+            preparedStatement.setDate(4, Date.valueOf(client.getNaissance()));
+            long newId = preparedStatement.executeUpdate();
+            connection.close();
+            return newId;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DaoException();
+        }
+    }
+
+    public long update(Client client) throws DaoException {
+        // TODO update un client
         return 0;
     }
 
     public long delete(Client client) throws DaoException {
+        // TODO supprimer un client
+        return 0;
+    }
+
+    public long count() throws DaoException {
+        // TODO compter le nombre de clients
         return 0;
     }
 

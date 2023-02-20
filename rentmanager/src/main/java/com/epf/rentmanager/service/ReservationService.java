@@ -32,9 +32,39 @@ public class ReservationService {
 
 
     public long create(Reservation reservation) throws ServiceException {
-        // TODO: créer une Réservation
+        try {
+            return ReservationDao.getInstance().create(reservation);
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException();
+        }
+    }
 
-        return 0;
+    public long update(Reservation reservation) throws ServiceException {
+        try {
+            return ReservationDao.getInstance().update(reservation);
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException();
+        }
+    }
+
+    public long delete(Reservation reservation) throws ServiceException {
+        try {
+            return ReservationDao.getInstance().delete(reservation);
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException();
+        }
+    }
+
+    public long count() throws ServiceException {
+        try {
+            return ReservationDao.getInstance().count();
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException();
+        }
     }
 
     public List<Reservation> findResaByClientId(long id) throws ServiceException {

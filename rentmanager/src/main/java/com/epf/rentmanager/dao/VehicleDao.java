@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.epf.rentmanager.exception.DaoException;
+import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.persistence.ConnectionManager;
 
@@ -32,10 +33,21 @@ public class VehicleDao {
     private static final String FIND_VEHICLES_QUERY = "SELECT id, constructeur, nb_places FROM Vehicle;";
 
     public long create(Vehicle vehicle) throws DaoException {
+        // TODO créer un vehicule
+        return 0;
+    }
+    public long update(Vehicle vehicle) throws DaoException {
+        // TODO update un vehicule
         return 0;
     }
 
     public long delete(Vehicle vehicle) throws DaoException {
+        // TODO supprimer un vehicule
+        return 0;
+    }
+
+    public long count() throws DaoException {
+        // TODO compter le nombre de vehicule
         return 0;
     }
 

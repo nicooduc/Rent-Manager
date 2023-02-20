@@ -29,9 +29,47 @@ public class VehicleService {
 
 
     public long create(Vehicle vehicle) throws ServiceException {
-        // TODO: créer un véhicule
+        try {
+            if (null == vehicle.getConstructeur() || vehicle.getNb_places() < 1) {
+                throw new ServiceException();
+            } else {
+                return VehicleDao.getInstance().create(vehicle);
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException();
+        }
+    }
 
-        return 0;
+    public long update(Vehicle vehicle) throws ServiceException {
+        try {
+            if (null == vehicle.getConstructeur() || vehicle.getNb_places() < 1) {
+                throw new ServiceException();
+            } else {
+                return VehicleDao.getInstance().update(vehicle);
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException();
+        }
+    }
+
+    public long delete(Vehicle vehicle) throws ServiceException {
+        try {
+            return VehicleDao.getInstance().delete(vehicle);
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException();
+        }
+    }
+
+    public long count() throws ServiceException {
+        try {
+            return VehicleDao.getInstance().count();
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException();
+        }
     }
 
     public Vehicle findById(long id) throws ServiceException {
