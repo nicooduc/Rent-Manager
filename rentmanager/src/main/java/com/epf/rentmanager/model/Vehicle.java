@@ -8,6 +8,10 @@ public class Vehicle {
     private String modele;
     private int nb_places;
 
+    public Vehicle(long vehicleId) {
+        this.id = vehicleId;
+    }
+
     public long getId() {
         return id;
     }
@@ -44,6 +48,12 @@ public class Vehicle {
         this.id = id;
         this.constructeur = constructeur;
         this.modele = modele;
+        this.nb_places = nb_places;
+    }
+
+    public Vehicle(long id, String constructeur, int nb_places) {
+        this.id = id;
+        this.constructeur = constructeur;
         this.nb_places = nb_places;
     }
 

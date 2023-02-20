@@ -11,6 +11,10 @@ public class Client   {
     private String email;
     private LocalDate naissance;
 
+    public Client(long clientId) {
+        this.id = clientId;
+    }
+
     public String getNom() {
         return nom;
     }

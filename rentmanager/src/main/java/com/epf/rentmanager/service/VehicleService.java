@@ -1,5 +1,6 @@
 package com.epf.rentmanager.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.epf.rentmanager.exception.DaoException;
@@ -11,36 +12,44 @@ import com.epf.rentmanager.dao.VehicleDao;
 
 public class VehicleService {
 
-	private VehicleDao vehicleDao;
-	public static VehicleService instance;
-	
-	private VehicleService() {
-		this.vehicleDao = VehicleDao.getInstance();
-	}
-	
-	public static VehicleService getInstance() {
-		if (instance == null) {
-			instance = new VehicleService();
-		}
-		
-		return instance;
-	}
-	
-	
-	public long create(Vehicle vehicle) throws ServiceException {
-		// TODO: créer un véhicule
+    private VehicleDao vehicleDao;
+    public static VehicleService instance;
 
-		return 0;
-	}
+    private VehicleService() {
+        this.vehicleDao = VehicleDao.getInstance();
+    }
 
-	public Vehicle findById(long id) throws ServiceException {
-		// TODO: récupérer un véhicule par son id
-		return null;
-	}
+    public static VehicleService getInstance() {
+        if (instance == null) {
+            instance = new VehicleService();
+        }
 
-	public List<Vehicle> findAll() throws ServiceException {
-		// TODO: récupérer tous les clients
-		return null;
-	}
-	
+        return instance;
+    }
+
+
+    public long create(Vehicle vehicle) throws ServiceException {
+        // TODO: créer un véhicule
+
+        return 0;
+    }
+
+    public Vehicle findById(long id) throws ServiceException {
+        try {
+            return VehicleDao.getInstance().findById(id);
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException();
+        }
+    }
+
+    public List<Vehicle> findAll() throws ServiceException {
+        try {
+            return VehicleDao.getInstance().findAll();
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException();
+        }
+    }
+
 }
