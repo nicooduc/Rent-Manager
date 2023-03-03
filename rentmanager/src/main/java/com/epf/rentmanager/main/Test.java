@@ -118,4 +118,12 @@ public class Test {
             throw new RuntimeException(e);
         }
     }
+
+    public void compterVehicules() {
+        try {
+            System.out.println("Nombre de vehicules : " + VehicleService.getInstance().count());
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

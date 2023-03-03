@@ -51,12 +51,6 @@ public class Vehicle {
         this.nb_places = nb_places;
     }
 
-    public Vehicle(long id, String constructeur, int nb_places) {
-        this.id = id;
-        this.constructeur = constructeur;
-        this.nb_places = nb_places;
-    }
-
     public Vehicle() {
     }
 

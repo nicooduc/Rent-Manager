@@ -116,6 +116,11 @@
                     <target>8</target>
                 </configuration>
             </plugin>
+<!--			<plugin>-->
+<!--				<groupId>checkstyle</groupId>-->
+<!--				<artifactId>checkstyle</artifactId>-->
+<!--				<version>5.0</version>-->
+<!--			</plugin>-->
         </plugins>
     </build>
 </project>

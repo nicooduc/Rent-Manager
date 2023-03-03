@@ -1,10 +1,6 @@
 package com.epf.rentmanager.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,14 +23,33 @@ public class VehicleDao {
         return instance;
     }
 
-    private static final String CREATE_VEHICLE_QUERY = "INSERT INTO Vehicle(constructeur, nb_places) VALUES(?, ?);";
+    private static final String CREATE_VEHICLE_QUERY = "INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES(?, ?);";
     private static final String DELETE_VEHICLE_QUERY = "DELETE FROM Vehicle WHERE id=?;";
-    private static final String FIND_VEHICLE_QUERY = "SELECT id, constructeur, nb_places FROM Vehicle WHERE id=?;";
-    private static final String FIND_VEHICLES_QUERY = "SELECT id, constructeur, nb_places FROM Vehicle;";
+    private static final String FIND_VEHICLE_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle WHERE id=?;";
+    private static final String FIND_VEHICLES_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle;";
+    private static final String COUNT_VEHICLES_QUERY = "SELECT COUNT(*) FROM Vehicle;";
 
     public long create(Vehicle vehicle) throws DaoException {
-        // TODO créer un vehicule
-        return 0;
+        try {
+            Connection connection = ConnectionManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_VEHICLE_QUERY, Statement.RETURN_GENERATED_KEYS);
+
+            preparedStatement.setString(1, vehicle.getConstructeur());
+            preparedStatement.setString(2, vehicle.getModele());
+            preparedStatement.setInt(3, vehicle.getNb_places());
+
+            preparedStatement.executeUpdate();
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            int newId = 0;
+            if (rs.next()) {
+                newId = rs.getInt(1);
+            }
+            connection.close();
+            return newId;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DaoException();
+        }
     }
     public long update(Vehicle vehicle) throws DaoException {
         // TODO update un vehicule
@@ -47,8 +62,20 @@ public class VehicleDao {
     }
 
     public long count() throws DaoException {
-        // TODO compter le nombre de vehicule
-        return 0;
+        try {
+            Connection connection = ConnectionManager.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(COUNT_VEHICLES_QUERY);
+            int nbLines = 0;
+            if (rs.next()) {
+                nbLines = rs.getInt(1);
+            }
+            connection.close();
+            return nbLines;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DaoException();
+        }
     }
 
     public Vehicle findById(long id) throws DaoException {
@@ -61,7 +88,7 @@ public class VehicleDao {
             while (rs.next()) {
                 vehicle.setId(id);
                 vehicle.setConstructeur(rs.getString("constructeur"));
-                // vehicle.setModele(rs.getString("prenom"));
+                vehicle.setModele(rs.getString("modele"));
                 vehicle.setNb_places(rs.getInt("nb_places"));
             }
             connection.close();
@@ -81,10 +108,10 @@ public class VehicleDao {
             while (rs.next()) {
                 long id = (rs.getInt("id"));
                 String constructeur = (rs.getString("constructeur"));
-                // String modele = (rs.getString("modele"));
+                String modele = (rs.getString("modele"));
                 int nb_places = (rs.getInt("nb_places"));
 
-                vehicles.add(new Vehicle(id, constructeur, nb_places));
+                vehicles.add(new Vehicle(id, constructeur, modele, nb_places));
             }
             connection.close();
         } catch (SQLException e) {

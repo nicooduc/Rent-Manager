@@ -29,7 +29,7 @@ public class FillDatabase {
 
         List<String> createTablesQueries = new ArrayList<>();
         createTablesQueries.add("CREATE TABLE IF NOT EXISTS Client(id INT primary key auto_increment, client_id INT, nom VARCHAR(100), prenom VARCHAR(100), email VARCHAR(100), naissance DATETIME)");
-        createTablesQueries.add("CREATE TABLE IF NOT EXISTS Vehicle(id INT primary key auto_increment, constructeur VARCHAR(100), nb_places TINYINT(255))");
+        createTablesQueries.add("CREATE TABLE IF NOT EXISTS Vehicle(id INT primary key auto_increment, constructeur VARCHAR(100), modele VARCHAR(100), nb_places TINYINT(255))");
         createTablesQueries.add("CREATE TABLE IF NOT EXISTS Reservation(id INT primary key auto_increment, client_id INT, foreign key(client_id) REFERENCES Client(id), vehicle_id INT, foreign key(vehicle_id) REFERENCES Vehicle(id), debut DATETIME, fin DATETIME)");
 
         try {
@@ -43,10 +43,10 @@ public class FillDatabase {
 
             // Remplissage de la base avec des Vehicules et des Clients
             Statement stmt = connection.createStatement();
-            stmt.execute("INSERT INTO Vehicle(constructeur, nb_places) VALUES('Renault', 4)");
-            stmt.execute("INSERT INTO Vehicle(constructeur, nb_places) VALUES('Peugeot', 4)");
-            stmt.execute("INSERT INTO Vehicle(constructeur, nb_places) VALUES('Seat', 4)");
-            stmt.execute("INSERT INTO Vehicle(constructeur, nb_places) VALUES('Nissan', 4)");
+            stmt.execute("INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES('Renault', 'Megan', 4)");
+            stmt.execute("INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES('Peugeot', '3008', 4)");
+            stmt.execute("INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES('Seat', 'Arona', 4)");
+            stmt.execute("INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES('Nissan', 'Leaf', 4)");
             
             stmt.execute("INSERT INTO Client(nom, prenom, email, naissance) VALUES('Dupont', 'Jean', 'jean.dupont@email.com', '1988-01-22')");
             stmt.execute("INSERT INTO Client(nom, prenom, email, naissance) VALUES('Morin', 'Sabrina', 'sabrina.morin@email.com', '1988-01-22')");

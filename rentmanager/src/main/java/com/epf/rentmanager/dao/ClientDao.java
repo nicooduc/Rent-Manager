@@ -93,6 +93,9 @@ public class ClientDao {
                 client.setPrenom(rs.getString("prenom"));
                 client.setEmail(rs.getString("email"));
                 client.setNaissance(rs.getDate("naissance").toLocalDate());
+                // TODO ajouter Mapper pour eviter de dupliquer les lignes ci desssus - idem autres DAO
+                // TODO créer validateurs (dans DTO idéalement)
+                // TODO créer des DTO entre Front et Back en bonus
             }
             connection.close();
         } catch (SQLException e) {

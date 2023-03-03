@@ -23,6 +23,7 @@ public class Main {
             System.out.println("7-    Chercher reservation par id vehicule");
             System.out.println("8-    Ajouter client");
             System.out.println("9-    Compter clients");
+            System.out.println("10-   Compter vehicules");
 
             String choix = scanner.nextLine();
             Test test = new Test();
@@ -57,6 +58,9 @@ public class Main {
                     break;
                 case "9":
                     test.compterClient();
+                    break;
+                case "10":
+                    test.compterVehicules();
                     break;
                 default:
                     System.out.println("Erreur, paramètre non correct");
