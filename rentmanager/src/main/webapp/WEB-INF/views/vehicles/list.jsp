@@ -34,26 +34,25 @@
                                     <!--<th>Propriétaire</th>-->
                                     <th>Action</th>
                                 </tr>
-                                <tr>
-
                                 <c:forEach items="${vehicles}" var="vehicle">
-                                    <td>${vehicle.id}.</td>
-                                    <td>${vehicle.constructeur}</td>
-                                    <td>${vehicle.modele}</td>
-                                    <td>${vehicle.seats}</td>
-                                    <!--<td>John Doe</td>-->
-                                    <td>
-                                        <a class="btn btn-primary disabled" href="car-detail.html">
-                                            <i class="fa fa-play"></i>
-                                        </a>
-                                        <a class="btn btn-success disabled" href="#">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a class="btn btn-danger disabled" href="#">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>${vehicle.id}.</td>
+                                        <td>${vehicle.constructeur}</td>
+                                        <td>${vehicle.modele}</td>
+                                        <td>${vehicle.nb_places}</td>
+                                        <!--<td>John Doe</td>-->
+                                        <td>
+                                            <a class="btn btn-primary disabled" href="car-detail.html">
+                                                <i class="fa fa-play"></i>
+                                            </a>
+                                            <a class="btn btn-success disabled" href="#">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a class="btn btn-danger disabled" href="#">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
                                 </c:forEach>
                             </table>
                         </div>
