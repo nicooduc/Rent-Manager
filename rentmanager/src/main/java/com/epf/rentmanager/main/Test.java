@@ -76,7 +76,6 @@ public class Test {
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void ajouterClient() {
@@ -113,6 +112,10 @@ public class Test {
     }
 
     public void compterClient() {
-
+        try {
+            System.out.println("Nombre de clients : " + ClientService.getInstance().count());
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

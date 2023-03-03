@@ -27,7 +27,7 @@ public class ClientDao {
     private static final String DELETE_CLIENT_QUERY = "DELETE FROM Client WHERE id=?;";
     private static final String FIND_CLIENT_QUERY = "SELECT nom, prenom, email, naissance FROM Client WHERE id=?;";
     private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
-    private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
+    private static final String COUNT_CLIENTS_QUERY = "SELECT COUNT(*) FROM Client;";
 
     public long create(Client client) throws DaoException {
         try {
@@ -64,8 +64,20 @@ public class ClientDao {
     }
 
     public long count() throws DaoException {
-
-        return 0;
+        try {
+            Connection connection = ConnectionManager.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(COUNT_CLIENTS_QUERY);
+            int nbLines = 0;
+            if (rs.next()) {
+                nbLines = rs.getInt(1);
+            }
+            connection.close();
+            return nbLines;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DaoException();
+        }
     }
 
     public Client findById(long id) throws DaoException {
