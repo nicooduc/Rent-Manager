@@ -1,5 +1,8 @@
 package com.epf.rentmanager.main;
 
+import com.epf.rentmanager.dao.ClientDao;
+import com.epf.rentmanager.dao.ReservationDao;
+import com.epf.rentmanager.dao.VehicleDao;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.service.VehicleService;
@@ -18,6 +21,8 @@ public class Main {
 
     public static void main(String[] args) {
 
+        test = new Test(new VehicleService(new VehicleDao()), new ClientService(new ClientDao()), new ReservationService(new ReservationDao()));
+
         do {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Que voulez vous faire ? : ");
@@ -34,6 +39,7 @@ public class Main {
             System.out.println("10-   Compter vehicules");
 
             String choix = scanner.nextLine();
+
 
             switch (choix) {
                 case "1":

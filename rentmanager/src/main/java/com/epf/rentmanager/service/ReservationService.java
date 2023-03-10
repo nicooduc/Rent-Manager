@@ -22,7 +22,7 @@ public class ReservationService {
     private VehicleDao vehicleDao;
     private ClientDao clientDao;
 
-    private ReservationService(ReservationDao reservationDao){
+    public ReservationService(ReservationDao reservationDao){
         this.reservationDao = reservationDao;
     }
 

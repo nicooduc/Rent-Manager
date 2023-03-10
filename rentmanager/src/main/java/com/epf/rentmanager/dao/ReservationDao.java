@@ -23,7 +23,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ReservationDao {
 
-    private ReservationDao() {
+    public ReservationDao() {
 
     }
 

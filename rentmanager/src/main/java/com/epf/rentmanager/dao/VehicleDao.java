@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class VehicleDao {
 
-    private VehicleDao() {
+    public VehicleDao() {
 
     }
 

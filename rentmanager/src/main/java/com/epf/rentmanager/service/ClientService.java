@@ -15,7 +15,7 @@ public class ClientService {
 
     private ClientDao clientDao;
 
-    private ClientService(ClientDao clientDao){
+    public ClientService(ClientDao clientDao){
         this.clientDao = clientDao;
     }
 
