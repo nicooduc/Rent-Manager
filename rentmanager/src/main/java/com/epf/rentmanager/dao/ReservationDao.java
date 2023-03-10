@@ -18,18 +18,13 @@ import com.epf.rentmanager.persistence.ConnectionManager;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.VehicleService;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class ReservationDao {
 
-    private static ReservationDao instance = null;
-
     private ReservationDao() {
-    }
 
-    public static ReservationDao getInstance() {
-        if (instance == null) {
-            instance = new ReservationDao();
-        }
-        return instance;
     }
 
     private static final String CREATE_RESERVATION_QUERY = "INSERT INTO Reservation(client_id, vehicle_id, debut, fin) VALUES(?, ?, ?, ?);";
@@ -69,8 +64,6 @@ public class ReservationDao {
                 long id = (rs.getInt("id"));
                 long vehicleId = (rs.getInt("vehicle_id"));
 
-                //Client client = ClientDao.getInstance().findById(clientId);
-                //Vehicle vehicle = VehicleDao.getInstance().findById(vehicleId);
                 Client client = new Client(clientId);
                 Vehicle vehicle = new Vehicle(vehicleId);
 
@@ -127,8 +120,6 @@ public class ReservationDao {
                 long clientId = (rs.getInt("client_id"));
                 long vehicleId = (rs.getInt("vehicle_id"));
 
-                //Client client = ClientDao.getInstance().findById(clientId);
-                //Vehicle vehicle = VehicleDao.getInstance().findById(vehicleId);
                 Client client = new Client(clientId);
                 Vehicle vehicle = new Vehicle(vehicleId);
 

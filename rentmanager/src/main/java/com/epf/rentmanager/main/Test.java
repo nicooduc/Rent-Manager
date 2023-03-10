@@ -6,29 +6,41 @@ import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.service.VehicleService;
 
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDate;
 import java.util.Scanner;
 
-
+@Component
 public class Test {
+
+    private VehicleService vehicleService;
+    private ClientService clientService;
+    private ReservationService reservationService;
+
+    public Test(VehicleService vehicleService, ClientService clientService, ReservationService reservationService) {
+        this.vehicleService = vehicleService;
+        this.clientService = clientService;
+        this.reservationService = reservationService;
+    }
 
     public void afficherClients(){
         try {
-            System.out.println(ClientService.getInstance().findAll());
+            System.out.println(this.clientService.findAll());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
     }
     public void afficherVehicules(){
         try {
-            System.out.println(VehicleService.getInstance().findAll());
+            System.out.println(this.vehicleService.findAll());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
     }
     public void afficherReservations(){
         try {
-            System.out.println(ReservationService.getInstance().findAll());
+            System.out.println(this.reservationService.findAll());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -39,7 +51,7 @@ public class Test {
             Scanner scanner = new Scanner(System.in);
             System.out.print("Entrez une id client : ");
             String identre = scanner.nextLine();
-            System.out.println(ClientService.getInstance().findById(Long.parseLong(identre)));
+            System.out.println(this.clientService.findById(Long.parseLong(identre)));
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -51,7 +63,7 @@ public class Test {
             Scanner scanner = new Scanner(System.in);
             System.out.print("Entrez une id vehicule : ");
             String identre = scanner.nextLine();
-            System.out.println(VehicleService.getInstance().findById(Long.parseLong(identre)));
+            System.out.println(this.vehicleService.findById(Long.parseLong(identre)));
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -62,7 +74,7 @@ public class Test {
             Scanner scanner = new Scanner(System.in);
             System.out.print("Entrez une id client pour trouver ses reservations : ");
             String identre = scanner.nextLine();
-            System.out.println(ReservationService.getInstance().findResaByClientId(Long.parseLong(identre)));
+            System.out.println(this.reservationService.findResaByClientId(Long.parseLong(identre)));
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -72,7 +84,7 @@ public class Test {
             Scanner scanner = new Scanner(System.in);
             System.out.print("Entrez une id vehicule pour trouver ses reservations : ");
             String identre = scanner.nextLine();
-            System.out.println(ReservationService.getInstance().findResaByVehicleId(Long.parseLong(identre)));
+            System.out.println(this.reservationService.findResaByVehicleId(Long.parseLong(identre)));
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -80,7 +92,7 @@ public class Test {
 
     public void ajouterClient() {
         try{
-            ClientService clientService = ClientService.getInstance();
+            ClientService clientService = this.clientService;
             Scanner scanner = new Scanner(System.in);
 
             System.out.print("Nom: ");
@@ -113,7 +125,7 @@ public class Test {
 
     public void compterClient() {
         try {
-            System.out.println("Nombre de clients : " + ClientService.getInstance().count());
+            System.out.println("Nombre de clients : " + this.clientService.count());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -121,7 +133,7 @@ public class Test {
 
     public void compterVehicules() {
         try {
-            System.out.println("Nombre de vehicules : " + VehicleService.getInstance().count());
+            System.out.println("Nombre de vehicules : " + this.vehicleService.count());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }

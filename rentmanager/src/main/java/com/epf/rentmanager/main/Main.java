@@ -1,15 +1,23 @@
 package com.epf.rentmanager.main;
 
+import com.epf.rentmanager.service.ClientService;
+import com.epf.rentmanager.service.ReservationService;
+import com.epf.rentmanager.service.VehicleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.Scanner;
 
+@Component
 public class Main {
 
     public static boolean quitter = false;
 
+    @Autowired
+    static Test test;
+
     public static void main(String[] args) {
-        //createCLient();
-        //createVehicle();
-        //createReservation();
+
         do {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Que voulez vous faire ? : ");
@@ -26,7 +34,6 @@ public class Main {
             System.out.println("10-   Compter vehicules");
 
             String choix = scanner.nextLine();
-            Test test = new Test();
 
             switch (choix) {
                 case "1":
