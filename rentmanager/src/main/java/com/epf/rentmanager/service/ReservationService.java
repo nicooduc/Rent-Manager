@@ -22,8 +22,10 @@ public class ReservationService {
     private VehicleDao vehicleDao;
     private ClientDao clientDao;
 
-    public ReservationService(ReservationDao reservationDao){
+    public ReservationService(ReservationDao reservationDao, VehicleDao vehicleDao, ClientDao clientDao){
         this.reservationDao = reservationDao;
+        this.vehicleDao = vehicleDao;
+        this.clientDao = clientDao;
     }
 
     public long create(Reservation reservation) throws ServiceException {
@@ -94,13 +96,13 @@ public class ReservationService {
 
     public List<Reservation> findAll() throws ServiceException {
         try {
-            List<Reservation> reservation = new ArrayList<Reservation>();
-            reservation = this.reservationDao.findAll();
-            for (Reservation r : reservation) {
+            List<Reservation> reservations = new ArrayList<Reservation>();
+            reservations = this.reservationDao.findAll();
+            for (Reservation r : reservations) {
                 r.setVehicle(this.vehicleDao.findById(r.getVehicle().getId()));
                 r.setClient(this.clientDao.findById(r.getClient().getId()));
             }
-            return reservation;
+            return reservations;
         } catch (DaoException e) {
             e.printStackTrace();
             throw new ServiceException();

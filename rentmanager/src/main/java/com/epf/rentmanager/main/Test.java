@@ -2,6 +2,7 @@ package com.epf.rentmanager.main;
 
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
+import com.epf.rentmanager.service.ClientException;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.service.VehicleService;
@@ -119,6 +120,8 @@ public class Test {
             System.out.println("Le client a été créé avec succès !"+ id);
 
         }catch (ServiceException e) {
+            throw new RuntimeException(e);
+        } catch (ClientException e) {
             throw new RuntimeException(e);
         }
     }

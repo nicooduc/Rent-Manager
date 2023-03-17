@@ -22,7 +22,9 @@ public class HomeServlet extends HttpServlet {
 
 	@Autowired
 	private VehicleService vehicleService;
+	@Autowired
 	private ClientService clientService;
+	@Autowired
 	private ReservationService reservationService;
 
 	@Override

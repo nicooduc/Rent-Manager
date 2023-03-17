@@ -1,6 +1,8 @@
 package com.epf.rentmanager.service;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 import com.epf.rentmanager.dao.ClientDao;
@@ -19,10 +21,11 @@ public class ClientService {
         this.clientDao = clientDao;
     }
 
-    public long create(Client client) throws ServiceException {
+    public long create(Client client) throws ServiceException, ClientException {
         try {
-            if (null == client.getNom() || null == client.getPrenom()) {
-                throw new ServiceException();
+            if (Period.between(LocalDate.now(), client.getNaissance()).getYears() < 18) {
+                throw new ClientException();
+            } else if (this.clientDao.verifyEmail(client.getEmail())) {
             } else {
                 client.setNom(client.getNom().toUpperCase());
                 return this.clientDao.create(client);

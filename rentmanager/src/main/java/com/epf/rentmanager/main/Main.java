@@ -21,7 +21,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        test = new Test(new VehicleService(new VehicleDao()), new ClientService(new ClientDao()), new ReservationService(new ReservationDao()));
+        test = new Test(new VehicleService(new VehicleDao()), new ClientService(new ClientDao()), new ReservationService(new ReservationDao(), new VehicleDao(), new ClientDao()));
 
         do {
             Scanner scanner = new Scanner(System.in);
