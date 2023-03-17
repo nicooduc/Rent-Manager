@@ -37,6 +37,7 @@ public class Main {
             System.out.println("8-    Ajouter client");
             System.out.println("9-    Compter clients");
             System.out.println("10-   Compter vehicules");
+            System.out.println("11-   Supprimer client");
 
             String choix = scanner.nextLine();
 
@@ -74,6 +75,9 @@ public class Main {
                     break;
                 case "10":
                     test.compterVehicules();
+                    break;
+                case "11":
+                    test.supprimerClient();
                     break;
                 default:
                     System.out.println("Erreur, paramètre non correct");

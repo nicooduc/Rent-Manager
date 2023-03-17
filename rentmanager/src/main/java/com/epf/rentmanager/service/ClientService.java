@@ -1,6 +1,5 @@
 package com.epf.rentmanager.service;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -8,6 +7,7 @@ import java.util.List;
 import com.epf.rentmanager.dao.ClientDao;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.exception.ConstraintException;
 import com.epf.rentmanager.model.Client;
 
 import org.springframework.stereotype.Service;
@@ -21,11 +21,16 @@ public class ClientService {
         this.clientDao = clientDao;
     }
 
-    public long create(Client client) throws ServiceException, ClientException {
+    public long create(Client client) throws ServiceException, ConstraintException {
         try {
-            if (Period.between(LocalDate.now(), client.getNaissance()).getYears() < 18) {
-                throw new ClientException();
+            if (Period.between(client.getNaissance(), LocalDate.now()).getYears() < 18) {
+                throw new ConstraintException("Vous n'avez pas l'age requis");
             } else if (this.clientDao.verifyEmail(client.getEmail())) {
+                throw new ConstraintException("Email déjà existant");
+            } else if (client.getPrenom().length() < 3) {
+                throw new ConstraintException("Le prénom entré est trop court");
+            } else if (client.getNom().length() < 3) {
+                throw new ConstraintException("Le nom entré est trop court");
             } else {
                 client.setNom(client.getNom().toUpperCase());
                 return this.clientDao.create(client);

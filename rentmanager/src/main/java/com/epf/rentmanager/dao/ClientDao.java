@@ -23,24 +23,22 @@ public class ClientDao {
     private static final String FIND_CLIENT_QUERY = "SELECT nom, prenom, email, naissance FROM Client WHERE id=?;";
     private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
     private static final String COUNT_CLIENTS_QUERY = "SELECT COUNT(*) FROM Client;";
+    private static final String VERIFY_EMAIL_QUERY = "SELECT 1 FROM client WHERE email = ? LIMIT 1;";
 
     public long create(Client client) throws DaoException {
-        try {
-            Connection connection = ConnectionManager.getConnection();
+        try (Connection connection = ConnectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_CLIENT_QUERY, Statement.RETURN_GENERATED_KEYS);
-
             preparedStatement.setString(1, client.getNom());
             preparedStatement.setString(2, client.getPrenom());
             preparedStatement.setString(3, client.getEmail());
             preparedStatement.setDate(4, Date.valueOf(client.getNaissance()));
-
             preparedStatement.executeUpdate();
+
             ResultSet rs = preparedStatement.getGeneratedKeys();
             int newId = 0;
             if (rs.next()) {
                 newId = rs.getInt(1);
             }
-            connection.close();
             return newId;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,20 +52,32 @@ public class ClientDao {
     }
 
     public long delete(Client client) throws DaoException {
-        // TODO supprimer un client
-        return 0;
+        try (Connection connection = ConnectionManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CLIENT_QUERY); //, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setInt(1, (int) client.getId());
+            preparedStatement.executeUpdate();
+
+//            ResultSet rs = preparedStatement.getGeneratedKeys();
+//            int delId = 0;
+//            if (rs.next()) {
+//                delId = rs.getInt(1);
+//            }
+            return 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DaoException();
+        }
     }
 
     public long count() throws DaoException {
-        try {
-            Connection connection = ConnectionManager.getConnection();
+        try (Connection connection = ConnectionManager.getConnection()) {
             Statement statement = connection.createStatement();
+
             ResultSet rs = statement.executeQuery(COUNT_CLIENTS_QUERY);
             int nbLines = 0;
             if (rs.next()) {
                 nbLines = rs.getInt(1);
             }
-            connection.close();
             return nbLines;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,12 +86,12 @@ public class ClientDao {
     }
 
     public Client findById(long id) throws DaoException {
-        Client client = new Client();
-        try {
-            Connection connection = ConnectionManager.getConnection();
+        try (Connection connection = ConnectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_CLIENT_QUERY);
             preparedStatement.setInt(1, (int) id);
+
             ResultSet rs = preparedStatement.executeQuery();
+            Client client = new Client();
             while (rs.next()) {
                 client.setId(id);
                 client.setNom(rs.getString("nom"));
@@ -89,22 +99,19 @@ public class ClientDao {
                 client.setEmail(rs.getString("email"));
                 client.setNaissance(rs.getDate("naissance").toLocalDate());
                 // TODO ajouter Mapper pour eviter de dupliquer les lignes ci desssus - idem autres DAO
-                // TODO créer validateurs (dans DTO idéalement)
-                // TODO créer des DTO entre Front et Back en bonus
             }
-            connection.close();
+            return client;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DaoException();
         }
-        return client;
     }
 
     public List<Client> findAll() throws DaoException {
-        List<Client> clients = new ArrayList<Client>();
-        try {
-            Connection connection = ConnectionManager.getConnection();
+        try (Connection connection = ConnectionManager.getConnection()) {
+            List<Client> clients = new ArrayList<Client>();
             Statement statement = connection.createStatement();
+
             ResultSet rs = statement.executeQuery(FIND_CLIENTS_QUERY);
             while (rs.next()) {
                 long id = (rs.getInt("id"));
@@ -112,15 +119,33 @@ public class ClientDao {
                 String prenom = (rs.getString("prenom"));
                 String email = (rs.getString("email"));
                 LocalDate naissance = (rs.getDate("naissance").toLocalDate());
-
                 clients.add(new Client(id, nom, prenom, email, naissance));
             }
             connection.close();
+            return clients;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DaoException();
         }
-        return clients;
+    }
+
+    public boolean verifyEmail(String email) throws DaoException {
+        try {
+            boolean exist = false;
+            Connection connection = ConnectionManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(VERIFY_EMAIL_QUERY);
+            preparedStatement.setString(1, email);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                exist = rs.getBoolean(1);
+            }
+            connection.close();
+            return exist;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DaoException();
+        }
     }
 
 }

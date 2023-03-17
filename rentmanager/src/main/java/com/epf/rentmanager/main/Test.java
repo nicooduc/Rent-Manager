@@ -1,8 +1,8 @@
 package com.epf.rentmanager.main;
 
+import com.epf.rentmanager.exception.ConstraintException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
-import com.epf.rentmanager.service.ClientException;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.service.VehicleService;
@@ -121,8 +121,8 @@ public class Test {
 
         }catch (ServiceException e) {
             throw new RuntimeException(e);
-        } catch (ClientException e) {
-            throw new RuntimeException(e);
+        } catch (ConstraintException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -137,6 +137,24 @@ public class Test {
     public void compterVehicules() {
         try {
             System.out.println("Nombre de vehicules : " + this.vehicleService.count());
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void supprimerClient() {
+        try {
+            ClientService clientService = this.clientService;
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.print("Id du client a supprimer : ");
+            long idClient = Long.parseLong(scanner.nextLine());
+
+            Client client = new Client();
+            client.setId(idClient);
+
+            this.clientService.delete(client);
+            System.out.println("Le client a été supprimé avec succès !");
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
