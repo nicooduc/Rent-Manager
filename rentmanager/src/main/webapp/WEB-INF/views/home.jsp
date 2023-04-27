@@ -12,6 +12,7 @@
    <!-- Left side column. contains the logo and sidebar -->
     <%@ include file="/WEB-INF/views/common/sidebar.jsp" %>
 
+    <%@ page pageEncoding="UTF-8" %>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">

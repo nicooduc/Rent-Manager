@@ -32,28 +32,28 @@
                                     <label for="lastname" class="col-sm-2 control-label">Nom</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Nom">
+                                        <input type="text" class="form-control" id="lastname" name="lastname" placeholder=${client.nom}>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="firstname" class="col-sm-2 control-label">Prenom</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Prenom">
+                                        <input type="text" class="form-control" id="firstname" name="firstname" placeholder=${client.prenom}>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="col-sm-2 control-label">Email</label>
 
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder=${client.email}>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="birthdate" class="col-sm-2 control-label">Date de naissance</label>
 
                                     <div class="col-sm-10">
-                                        <input type="date" class="form-control" required id="birthdate" name="birthdate">
+                                        <input type="date" class="form-control" id="birthdate" name="birthdate">
                                     </div>
                                 </div>
                             </div>

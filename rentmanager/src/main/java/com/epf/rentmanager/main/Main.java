@@ -21,7 +21,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        test = new Test(new VehicleService(new VehicleDao()), new ClientService(new ClientDao()), new ReservationService(new ReservationDao(), new VehicleDao(), new ClientDao()));
+        test = new Test(new VehicleService(new VehicleDao()), new ClientService(new ClientDao(), new ReservationDao()), new ReservationService(new ReservationDao(), new VehicleDao(), new ClientDao()));
 
         do {
             Scanner scanner = new Scanner(System.in);
@@ -38,6 +38,9 @@ public class Main {
             System.out.println("9-    Compter clients");
             System.out.println("10-   Compter vehicules");
             System.out.println("11-   Supprimer client");
+            System.out.println("12-   Mettre à jour un client");
+            System.out.println("13-   Créer réservation");
+            System.out.println("14-   Delete client");
 
             String choix = scanner.nextLine();
 
@@ -78,6 +81,15 @@ public class Main {
                     break;
                 case "11":
                     test.supprimerClient();
+                    break;
+                case "12":
+                    test.updateClient();
+                    break;
+                case "13":
+                    test.createReservation();
+                    break;
+                case "14":
+                    test.deleteClient();
                     break;
                 default:
                     System.out.println("Erreur, paramètre non correct");

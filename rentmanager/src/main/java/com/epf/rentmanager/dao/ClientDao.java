@@ -19,11 +19,12 @@ public class ClientDao {
     }
 
     private static final String CREATE_CLIENT_QUERY = "INSERT INTO Client(nom, prenom, email, naissance) VALUES(?, ?, ?, ?);";
-    private static final String DELETE_CLIENT_QUERY = "DELETE FROM Client WHERE id=?;";
-    private static final String FIND_CLIENT_QUERY = "SELECT nom, prenom, email, naissance FROM Client WHERE id=?;";
+    private static final String DELETE_CLIENT_QUERY = "DELETE FROM Client WHERE id = ?;";
+    private static final String FIND_CLIENT_QUERY = "SELECT nom, prenom, email, naissance FROM Client WHERE id = ?;";
     private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
     private static final String COUNT_CLIENTS_QUERY = "SELECT COUNT(*) FROM Client;";
     private static final String VERIFY_EMAIL_QUERY = "SELECT 1 FROM client WHERE email = ? LIMIT 1;";
+    private static final String UPDATE_CLIENT_QUERY = "UPDATE Client SET nom = ?, prenom = ?, email = ?, naissance = ? WHERE id = ?";
 
     public long create(Client client) throws DaoException {
         try (Connection connection = ConnectionManager.getConnection()) {
@@ -47,21 +48,33 @@ public class ClientDao {
     }
 
     public long update(Client client) throws DaoException {
-        // TODO update un client
-        return 0;
+        try (Connection connection = ConnectionManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLIENT_QUERY, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, client.getNom());
+            preparedStatement.setString(2, client.getPrenom());
+            preparedStatement.setString(3, client.getEmail());
+            preparedStatement.setDate(4, Date.valueOf(client.getNaissance()));
+            preparedStatement.setInt(5, (int) client.getId());
+            preparedStatement.executeUpdate();
+
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            int NbIdChange = 0;
+            if (rs.next()) {
+                NbIdChange = rs.getInt(1);
+            }
+            return NbIdChange;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DaoException();
+        }
     }
 
     public long delete(Client client) throws DaoException {
         try (Connection connection = ConnectionManager.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CLIENT_QUERY); //, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CLIENT_QUERY);
             preparedStatement.setInt(1, (int) client.getId());
             preparedStatement.executeUpdate();
 
-//            ResultSet rs = preparedStatement.getGeneratedKeys();
-//            int delId = 0;
-//            if (rs.next()) {
-//                delId = rs.getInt(1);
-//            }
             return 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -98,7 +111,6 @@ public class ClientDao {
                 client.setPrenom(rs.getString("prenom"));
                 client.setEmail(rs.getString("email"));
                 client.setNaissance(rs.getDate("naissance").toLocalDate());
-                // TODO ajouter Mapper pour eviter de dupliquer les lignes ci desssus - idem autres DAO
             }
             return client;
         } catch (SQLException e) {

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.epf.rentmanager.exception.DaoException;
-import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.persistence.ConnectionManager;
 
@@ -23,23 +22,21 @@ public class VehicleDao {
     private static final String FIND_VEHICLE_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle WHERE id=?;";
     private static final String FIND_VEHICLES_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle;";
     private static final String COUNT_VEHICLES_QUERY = "SELECT COUNT(*) FROM Vehicle;";
+    private static final String UPDATE_VEHICLE_QUERY = "UPDATE Vehicle SET constructeur = ?, modele = ?, nb_places = ? WHERE id = ?";
 
     public long create(Vehicle vehicle) throws DaoException {
-        try {
-            Connection connection = ConnectionManager.getConnection();
+        try (Connection connection = ConnectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_VEHICLE_QUERY, Statement.RETURN_GENERATED_KEYS);
-
             preparedStatement.setString(1, vehicle.getConstructeur());
             preparedStatement.setString(2, vehicle.getModele());
             preparedStatement.setInt(3, vehicle.getNb_places());
-
             preparedStatement.executeUpdate();
+
             ResultSet rs = preparedStatement.getGeneratedKeys();
             int newId = 0;
             if (rs.next()) {
                 newId = rs.getInt(1);
             }
-            connection.close();
             return newId;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,13 +44,37 @@ public class VehicleDao {
         }
     }
     public long update(Vehicle vehicle) throws DaoException {
-        // TODO update un vehicule
-        return 0;
+        try (Connection connection = ConnectionManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_VEHICLE_QUERY, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, vehicle.getConstructeur());
+            preparedStatement.setString(2, vehicle.getModele());
+            preparedStatement.setInt(3, vehicle.getNb_places());
+            preparedStatement.setInt(4, (int) vehicle.getId());
+            preparedStatement.executeUpdate();
+
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            int NbIdChange = 0;
+            if (rs.next()) {
+                NbIdChange = rs.getInt(1);
+            }
+            return NbIdChange;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DaoException();
+        }
     }
 
     public long delete(Vehicle vehicle) throws DaoException {
-        // TODO supprimer un vehicule
-        return 0;
+        try (Connection connection = ConnectionManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_VEHICLE_QUERY);
+            preparedStatement.setInt(1, (int) vehicle.getId());
+            preparedStatement.executeUpdate();
+
+            return 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DaoException();
+        }
     }
 
     public long count() throws DaoException {

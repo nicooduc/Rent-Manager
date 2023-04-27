@@ -8,6 +8,7 @@
     <%@ include file="/WEB-INF/views/common/header.jsp" %>
     <!-- Left side column. contains the logo and sidebar -->
     <%@ include file="/WEB-INF/views/common/sidebar.jsp" %>
+    <%@ page pageEncoding="UTF-8" %>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -20,14 +21,16 @@
                     <!-- Profile Image -->
                     <div class="box box-primary">
                         <div class="box-body box-profile">
-                            <h3 class="profile-username text-center">John Doe (john.doe@epf.fr)</h3>
+                            <h3 class="profile-username text-center">${client.prenom} ${client.nom}</h3>
+                            <p class="text-center">${client.naissance}</p>
+                            <h4 class="text-center"><a href="mailto:${client.email}">(${client.email})</a></h4>
 
                             <ul class="list-group list-group-unbordered">
                                 <li class="list-group-item">
-                                    <b>Reservation(s)</b> <a class="pull-right">2</a>
+                                    <b>Réservation(s)</b> <a class="pull-right">${reservations.size()}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Voiture(s)</b> <a class="pull-right">3</a>
+                                    <b>Voiture(s)</b> <a class="pull-right">${vehicles.size()}</a>
                                 </li>
                             </ul>
                         </div>
@@ -39,8 +42,8 @@
                 <div class="col-md-9">
                     <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#rents" data-toggle="tab">Reservations</a></li>
-                            <li><a href="#cars" data-toggle="tab">Voitures</a></li>
+                            <li class="active"><a href="#rents" data-toggle="tab">Réservation(s)</a></li>
+                            <li><a href="#cars" data-toggle="tab">Voiture(s)</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="active tab-pane" id="rents">
@@ -49,21 +52,17 @@
                                         <tr>
                                             <th style="width: 10px">#</th>
                                             <th>Voiture</th>
-                                            <th>Date de debut</th>
+                                            <th>Date de début</th>
                                             <th>Date de fin</th>
                                         </tr>
-                                        <tr>
-                                            <td>3.</td>
-                                            <td>Renault Megane</td>
-                                            <td>10/01/2018</td>
-                                            <td>12/01/2018</td>
-                                        </tr>
-                                        <tr>
-                                            <td>7.</td>
-                                            <td>Peugeot 207</td>
-                                            <td>10/01/2018</td>
-                                            <td>12/01/2018</td>
-                                        </tr>
+                                        <c:forEach items="${reservations}" var="reservation">
+                                            <tr>
+                                                <td>${reservation.id}</td>
+                                                <td>${reservation.vehicle.constructeur} ${reservation.vehicle.modele}</td>
+                                                <td>${reservation.debut}</td>
+                                                <td>${reservation.fin}</td>
+                                            </tr>
+                                        </c:forEach>
                                     </table>
                                 </div>
                             </div>
@@ -74,28 +73,18 @@
                                     <table class="table table-striped">
                                         <tr>
                                             <th style="width: 10px">#</th>
-                                            <th>Modele</th>
                                             <th>Constructeur</th>
+                                            <th>Modèle</th>
                                             <th style=>Nombre de places</th>
                                         </tr>
-                                        <tr>
-                                            <td>1.</td>
-                                            <td>Renault</td>
-                                            <td>Clio</td>
-                                            <td>5</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2.</td>
-                                            <td>Peugeot</td>
-                                            <td>206</td>
-                                            <td>5</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3.</td>
-                                            <td>Volkswagen</td>
-                                            <td>Touran</td>
-                                            <td>7</td>
-                                        </tr>
+                                        <c:forEach items="${vehicles}" var="vehicle">
+                                            <tr>
+                                                <td>${vehicle.id}</td>
+                                                <td>${vehicle.constructeur}</td>
+                                                <td>${vehicle.modele}</td>
+                                                <td>${vehicle.nb_places}</td>
+                                            </tr>
+                                        </c:forEach>
                                     </table>
                                 </div>
                             </div>

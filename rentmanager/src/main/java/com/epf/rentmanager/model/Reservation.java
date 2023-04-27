@@ -50,10 +50,10 @@ public class Reservation {
         this.fin = fin;
     }
 
-    public Reservation(long id, Client client_id, Vehicle vehicle_id, LocalDate debut, LocalDate fin) {
+    public Reservation(long id, Client client, Vehicle vehicle, LocalDate debut, LocalDate fin) {
         this.id = id;
-        this.client = client_id;
-        this.vehicle = vehicle_id;
+        this.client = client;
+        this.vehicle = vehicle;
         this.debut = debut;
         this.fin = fin;
     }
@@ -78,8 +78,8 @@ public class Reservation {
     public String toString() {
         return "Reservation{" +
                 "id=" + id +
-                ", client_id=" + client +
-                ", vehicule_id=" + vehicle +
+                ", client=" + client +
+                ", vehicule=" + vehicle +
                 ", debut=" + debut +
                 ", fin=" + fin +
                 '}';
