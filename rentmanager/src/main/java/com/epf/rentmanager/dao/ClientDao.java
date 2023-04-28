@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.epf.rentmanager.exception.DaoException;
-import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.persistence.ConnectionManager;
+import com.epf.rentmanager.model.Client;
 
 import org.springframework.stereotype.Repository;
 
@@ -40,6 +40,7 @@ public class ClientDao {
             if (rs.next()) {
                 newId = rs.getInt(1);
             }
+
             return newId;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,6 +63,7 @@ public class ClientDao {
             if (rs.next()) {
                 NbIdChange = rs.getInt(1);
             }
+
             return NbIdChange;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -91,6 +93,7 @@ public class ClientDao {
             if (rs.next()) {
                 nbLines = rs.getInt(1);
             }
+
             return nbLines;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -105,13 +108,14 @@ public class ClientDao {
 
             ResultSet rs = preparedStatement.executeQuery();
             Client client = new Client();
-            while (rs.next()) {
+            if (rs.next()) {
                 client.setId(id);
                 client.setNom(rs.getString("nom"));
                 client.setPrenom(rs.getString("prenom"));
                 client.setEmail(rs.getString("email"));
                 client.setNaissance(rs.getDate("naissance").toLocalDate());
             }
+
             return client;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -133,7 +137,7 @@ public class ClientDao {
                 LocalDate naissance = (rs.getDate("naissance").toLocalDate());
                 clients.add(new Client(id, nom, prenom, email, naissance));
             }
-            connection.close();
+
             return clients;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -142,17 +146,16 @@ public class ClientDao {
     }
 
     public boolean verifyEmail(String email) throws DaoException {
-        try {
-            boolean exist = false;
-            Connection connection = ConnectionManager.getConnection();
+        try (Connection connection = ConnectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(VERIFY_EMAIL_QUERY);
             preparedStatement.setString(1, email);
 
             ResultSet rs = preparedStatement.executeQuery();
+            boolean exist = false;
             if (rs.next()) {
                 exist = rs.getBoolean(1);
             }
-            connection.close();
+
             return exist;
         } catch (SQLException e) {
             e.printStackTrace();

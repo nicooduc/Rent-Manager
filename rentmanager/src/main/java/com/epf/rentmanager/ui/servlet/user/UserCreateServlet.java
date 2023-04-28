@@ -1,4 +1,4 @@
-package com.epf.rentmanager.ui.servlet;
+package com.epf.rentmanager.ui.servlet.user;
 
 import com.epf.rentmanager.exception.ConstraintException;
 import com.epf.rentmanager.exception.ServiceException;
@@ -15,56 +15,35 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 
-@WebServlet("/users/update")
-public class UserUpdateServlet extends HttpServlet {
-    //private static final long serialVersionUID = 1L; //delete if everything still work
+@WebServlet("/users/create")
+public class UserCreateServlet extends HttpServlet {
     @Autowired
     ClientService clientService;
-    int clientId;
-    Client client = new Client();
+
     @Override
     public void init() throws ServletException {
         super.init();
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
+
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        clientId = Integer.parseInt(req.getParameter("id"));
-        try {
-            client = this.clientService.findById(clientId);
-            req.setAttribute("client", client);
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
-        this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/update.jsp").forward(req, resp);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/create.jsp").forward(req, resp);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String lastname = req.getParameter("lastname");
-        String firstname = req.getParameter("firstname");
-        String email = req.getParameter("email");
-        String birthdate = req.getParameter("birthdate");
-        if (!lastname.isEmpty()) {
-            client.setNom(lastname);
-        }
-        if (!firstname.isEmpty()) {
-            client.setPrenom(firstname);
-        }
-        if (!email.isEmpty()) {
-            client.setEmail(email);
-        }
-        if (!birthdate.isEmpty()) {
-            client.setNaissance(LocalDate.parse(birthdate));
-        }
-
+        Client client = new Client(0,
+                req.getParameter("lastname"),
+                req.getParameter("firstname"),
+                req.getParameter("email"),
+                LocalDate.parse(req.getParameter("birthdate")));
         try {
-            this.clientService.update(client);
+            this.clientService.create(client);
         } catch (ServiceException e) {
             e.printStackTrace();
         } catch (ConstraintException e) {
             req.setAttribute("error", e); //TODO display error
             e.printStackTrace();
         }
-
         resp.sendRedirect("/rentmanager/users");
     }
 }

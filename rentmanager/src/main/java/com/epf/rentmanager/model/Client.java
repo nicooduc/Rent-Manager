@@ -3,7 +3,7 @@ package com.epf.rentmanager.model;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Client   {
+public class Client {
 
     private long id;
     private String nom;
@@ -11,8 +11,19 @@ public class Client   {
     private String email;
     private LocalDate naissance;
 
+    public Client() {
+    }
+
     public Client(long clientId) {
         this.id = clientId;
+    }
+
+    public Client(long id, String lastname, String firstname, String mail, LocalDate birthdate) {
+        this.nom = lastname;
+        this.prenom = firstname;
+        this.id = id;
+        this.email = mail;
+        this.naissance = birthdate;
     }
 
     public String getNom() {
@@ -55,23 +66,16 @@ public class Client   {
         this.naissance = naissance;
     }
 
-    public Client( long id, String lastname, String firstname,String mail, LocalDate birthdate) {
-        this.nom = lastname;
-        this.prenom = firstname;
-        this.id = id;
-        this.email = mail;
-        this.naissance = birthdate;
-    }
-
-    public Client() {
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Client)) return false;
         Client client = (Client) o;
-        return id == client.id && Objects.equals(nom, client.nom) && Objects.equals(prenom, client.prenom) && Objects.equals(email, client.email) && Objects.equals(naissance, client.naissance);
+        return id == client.id
+                && Objects.equals(nom, client.nom)
+                && Objects.equals(prenom, client.prenom)
+                && Objects.equals(email, client.email)
+                && Objects.equals(naissance, client.naissance);
     }
 
     @Override
@@ -81,12 +85,12 @@ public class Client   {
 
     @java.lang.Override
     public java.lang.String toString() {
-        return "Client{" +
-                "lastname='" + nom + '\'' +
-                ", firstname='" + prenom + '\'' +
-                ", id=" + id +
-                ", mail='" + email + '\'' +
-                ", birthdate=" + naissance +
+        return "Client {" +
+                "lastname = " + nom +
+                ", firstname = " + prenom +
+                ", id = " + id +
+                ", mail = " + email +
+                ", birthdate = " + naissance +
                 '}';
     }
 }

@@ -5,12 +5,12 @@ import java.time.Period;
 import java.util.List;
 import java.util.Objects;
 
-import com.epf.rentmanager.dao.ClientDao;
-import com.epf.rentmanager.dao.ReservationDao;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.exception.ConstraintException;
 import com.epf.rentmanager.model.Client;
+import com.epf.rentmanager.dao.ClientDao;
+import com.epf.rentmanager.dao.ReservationDao;
 
 import org.springframework.stereotype.Service;
 
@@ -75,7 +75,6 @@ public class ClientService {
         }
     }
 
-
     public long count() throws ServiceException {
         try {
             return this.clientDao.count();
@@ -101,7 +100,6 @@ public class ClientService {
             e.printStackTrace();
             throw new ServiceException();
         }
-
     }
 
 }

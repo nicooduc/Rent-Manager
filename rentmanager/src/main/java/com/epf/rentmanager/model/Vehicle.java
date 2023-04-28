@@ -8,8 +8,18 @@ public class Vehicle {
     private String modele;
     private int nb_places;
 
+    public Vehicle() {
+    }
+
     public Vehicle(long vehicleId) {
         this.id = vehicleId;
+    }
+
+    public Vehicle(long id, String constructeur, String modele, int nb_places) {
+        this.id = id;
+        this.constructeur = constructeur;
+        this.modele = modele;
+        this.nb_places = nb_places;
     }
 
     public long getId() {
@@ -44,22 +54,15 @@ public class Vehicle {
         this.nb_places = nb_places;
     }
 
-    public Vehicle(long id, String constructeur, String modele, int nb_places) {
-        this.id = id;
-        this.constructeur = constructeur;
-        this.modele = modele;
-        this.nb_places = nb_places;
-    }
-
-    public Vehicle() {
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Vehicle)) return false;
         Vehicle vehicle = (Vehicle) o;
-        return id == vehicle.id && nb_places == vehicle.nb_places && Objects.equals(constructeur, vehicle.constructeur) && Objects.equals(modele, vehicle.modele);
+        return id == vehicle.id
+                && nb_places == vehicle.nb_places
+                && Objects.equals(constructeur, vehicle.constructeur)
+                && Objects.equals(modele, vehicle.modele);
     }
 
     @Override
@@ -69,11 +72,11 @@ public class Vehicle {
 
     @java.lang.Override
     public java.lang.String toString() {
-        return "Vehicule{" +
-                "id=" + id +
-                ", constructeur='" + constructeur + '\'' +
-                ", modele='" + modele + '\'' +
-                ", nb_places=" + nb_places +
+        return "Vehicule {" +
+                "id = " + id +
+                ", constructeur = " + constructeur +
+                ", modele = " + modele +
+                ", nb_places = " + nb_places +
                 '}';
     }
 }

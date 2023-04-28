@@ -9,10 +9,7 @@ import java.util.List;
 
 import org.h2.tools.DeleteDbFiles;
 
-import com.epf.rentmanager.persistence.ConnectionManager;
-
 public class FillDatabase {
-
 
     public static void main(String[] args) throws Exception {
         try {
@@ -23,9 +20,9 @@ public class FillDatabase {
         }
     }
 
-	private static void insertWithPreparedStatement() throws SQLException {
+    private static void insertWithPreparedStatement() throws SQLException {
         Connection connection = ConnectionManager.getConnection();
-        PreparedStatement createPreparedStatement = null;
+        PreparedStatement createPreparedStatement;
 
         List<String> createTablesQueries = new ArrayList<>();
         createTablesQueries.add("CREATE TABLE IF NOT EXISTS Client(id INT primary key auto_increment, client_id INT, nom VARCHAR(100), prenom VARCHAR(100), email VARCHAR(100), naissance DATETIME)");
@@ -36,19 +33,20 @@ public class FillDatabase {
             connection.setAutoCommit(false);
 
             for (String createQuery : createTablesQueries) {
-            	createPreparedStatement = connection.prepareStatement(createQuery);
-	            createPreparedStatement.executeUpdate();
-	            createPreparedStatement.close();
+                createPreparedStatement = connection.prepareStatement(createQuery);
+                createPreparedStatement.executeUpdate();
+                createPreparedStatement.close();
             }
 
-            // Remplissage de la base avec des Vehicules et des Clients
+            // Remplissage de la base avec des Vehicules, des Clients et des Reservations
             Statement stmt = connection.createStatement();
             stmt.execute("INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES('Jaguar', 'XE', 5)");
             stmt.execute("INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES('Koenigsegg', 'Agera RS', 2)");
             stmt.execute("INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES('Ford', 'Mustang', 4)");
             stmt.execute("INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES('Audi', 'TT RS Coupé', 4)");
             stmt.execute("INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES('Lamborghini', 'Urus', 5)");
-            
+            stmt.execute("INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES('Porsche', 'Panamera', 5)");
+
             stmt.execute("INSERT INTO Client(nom, prenom, email, naissance) VALUES('DUPONT', 'Jean', 'jean.dupont@email.com', '1988-01-22')");
             stmt.execute("INSERT INTO Client(nom, prenom, email, naissance) VALUES('MORIN', 'Sabrina', 'sabrina.morin@email.com', '1985-07-18')");
             stmt.execute("INSERT INTO Client(nom, prenom, email, naissance) VALUES('AFLECK', 'Steeve', 'steeve.afleck@email.com', '1997-11-12')");
@@ -60,6 +58,8 @@ public class FillDatabase {
             stmt.execute("INSERT INTO Reservation (client_id, vehicle_id, debut, fin) VALUES('2', '5', '2023-12-27', '2024-01-01')");
             stmt.execute("INSERT INTO Reservation (client_id, vehicle_id, debut, fin) VALUES('1', '3', '2023-10-07', '2023-10-09')");
             stmt.execute("INSERT INTO Reservation (client_id, vehicle_id, debut, fin) VALUES('4', '4', '2024-07-13', '2024-07-16')");
+            stmt.execute("INSERT INTO Reservation (client_id, vehicle_id, debut, fin) VALUES('3', '6', '2023-06-30', '2023-07-05')");
+            stmt.execute("INSERT INTO Reservation (client_id, vehicle_id, debut, fin) VALUES('1', '5', '2024-05-22', '2024-05-26')");
 
             connection.commit();
             System.out.println("Success!");

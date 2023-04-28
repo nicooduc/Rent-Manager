@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.epf.rentmanager.exception.DaoException;
-import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.persistence.ConnectionManager;
+import com.epf.rentmanager.model.Vehicle;
 
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +22,7 @@ public class VehicleDao {
     private static final String FIND_VEHICLE_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle WHERE id=?;";
     private static final String FIND_VEHICLES_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle;";
     private static final String COUNT_VEHICLES_QUERY = "SELECT COUNT(*) FROM Vehicle;";
-    private static final String UPDATE_VEHICLE_QUERY = "UPDATE Vehicle SET constructeur = ?, modele = ?, nb_places = ? WHERE id = ?";
+    private static final String UPDATE_VEHICLE_QUERY = "UPDATE Vehicle SET constructeur = ?, modele = ?, nb_places = ? WHERE id = ?;";
 
     public long create(Vehicle vehicle) throws DaoException {
         try (Connection connection = ConnectionManager.getConnection()) {
@@ -37,12 +37,14 @@ public class VehicleDao {
             if (rs.next()) {
                 newId = rs.getInt(1);
             }
+
             return newId;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DaoException();
         }
     }
+
     public long update(Vehicle vehicle) throws DaoException {
         try (Connection connection = ConnectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_VEHICLE_QUERY, Statement.RETURN_GENERATED_KEYS);
@@ -57,6 +59,7 @@ public class VehicleDao {
             if (rs.next()) {
                 NbIdChange = rs.getInt(1);
             }
+
             return NbIdChange;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,15 +81,15 @@ public class VehicleDao {
     }
 
     public long count() throws DaoException {
-        try {
-            Connection connection = ConnectionManager.getConnection();
+        try (Connection connection = ConnectionManager.getConnection()) {
             Statement statement = connection.createStatement();
+
             ResultSet rs = statement.executeQuery(COUNT_VEHICLES_QUERY);
             int nbLines = 0;
             if (rs.next()) {
                 nbLines = rs.getInt(1);
             }
-            connection.close();
+
             return nbLines;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -95,47 +98,45 @@ public class VehicleDao {
     }
 
     public Vehicle findById(long id) throws DaoException {
-        Vehicle vehicle = new Vehicle();
-        try {
-            Connection connection = ConnectionManager.getConnection();
+        try (Connection connection = ConnectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_VEHICLE_QUERY);
             preparedStatement.setInt(1, (int) id);
+
             ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
+            Vehicle vehicle = new Vehicle();
+            if (rs.next()) {
                 vehicle.setId(id);
                 vehicle.setConstructeur(rs.getString("constructeur"));
                 vehicle.setModele(rs.getString("modele"));
                 vehicle.setNb_places(rs.getInt("nb_places"));
             }
-            connection.close();
+
+            return vehicle;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DaoException();
         }
-        return vehicle;
     }
 
     public List<Vehicle> findAll() throws DaoException {
-        List<Vehicle> vehicles = new ArrayList<Vehicle>();
-        try {
-            Connection connection = ConnectionManager.getConnection();
+        try (Connection connection = ConnectionManager.getConnection()) {
             Statement statement = connection.createStatement();
+
             ResultSet rs = statement.executeQuery(FIND_VEHICLES_QUERY);
+            List<Vehicle> vehicles = new ArrayList<Vehicle>();
             while (rs.next()) {
                 long id = (rs.getInt("id"));
                 String constructeur = (rs.getString("constructeur"));
                 String modele = (rs.getString("modele"));
                 int nb_places = (rs.getInt("nb_places"));
-
                 vehicles.add(new Vehicle(id, constructeur, modele, nb_places));
             }
-            connection.close();
+
+            return vehicles;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DaoException();
         }
-        return vehicles;
     }
-
 
 }

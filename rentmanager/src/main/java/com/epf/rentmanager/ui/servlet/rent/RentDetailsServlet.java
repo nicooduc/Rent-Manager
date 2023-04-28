@@ -1,9 +1,8 @@
-package com.epf.rentmanager.ui.servlet;
+package com.epf.rentmanager.ui.servlet.rent;
 
-import com.epf.rentmanager.exception.ConstraintException;
 import com.epf.rentmanager.exception.ServiceException;
-import com.epf.rentmanager.model.Client;
-import com.epf.rentmanager.service.ClientService;
+import com.epf.rentmanager.model.Reservation;
+import com.epf.rentmanager.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -13,13 +12,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 
-@WebServlet("/users/delete")
-public class UserDeleteServlet extends HttpServlet {
-    //private static final long serialVersionUID = 1L; //delete if everything still work
+@WebServlet("/rents/details")
+public class RentDetailsServlet extends HttpServlet {
     @Autowired
-    ClientService clientService;
+    ReservationService reservationService;
 
     @Override
     public void init() throws ServletException {
@@ -27,15 +24,14 @@ public class UserDeleteServlet extends HttpServlet {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Client client = new Client(Integer.parseInt(req.getParameter("id")));
-
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int resaId = Integer.parseInt(req.getParameter("id"));
         try {
-            this.clientService.delete(client);
+            Reservation reservation = this.reservationService.findResaById(resaId);
+            req.setAttribute("reservation", reservation);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-
-        resp.sendRedirect("/rentmanager/users");
+        this.getServletContext().getRequestDispatcher("/WEB-INF/views/rents/details.jsp").forward(req, resp);
     }
 }

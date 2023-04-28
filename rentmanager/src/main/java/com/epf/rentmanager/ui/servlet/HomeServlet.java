@@ -18,8 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
-
 	@Autowired
 	VehicleService vehicleService;
 	@Autowired
@@ -42,7 +40,6 @@ public class HomeServlet extends HttpServlet {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
-
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
 	}
 

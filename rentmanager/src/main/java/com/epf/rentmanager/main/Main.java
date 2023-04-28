@@ -1,11 +1,11 @@
 package com.epf.rentmanager.main;
 
 import com.epf.rentmanager.dao.ClientDao;
-import com.epf.rentmanager.dao.ReservationDao;
 import com.epf.rentmanager.dao.VehicleDao;
+import com.epf.rentmanager.dao.ReservationDao;
 import com.epf.rentmanager.service.ClientService;
-import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.service.VehicleService;
+import com.epf.rentmanager.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +21,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        test = new Test(new VehicleService(new VehicleDao(), new ReservationDao()), new ClientService(new ClientDao(), new ReservationDao()), new ReservationService(new ReservationDao(), new VehicleDao(), new ClientDao()));
+        test = new Test(new VehicleService(new VehicleDao(), new ReservationDao()),
+                new ClientService(new ClientDao(), new ReservationDao()),
+                new ReservationService(new ReservationDao(), new VehicleDao(), new ClientDao()));
 
         do {
             Scanner scanner = new Scanner(System.in);
@@ -43,9 +45,10 @@ public class Main {
             System.out.println("14-   Delete client");
 
             String choix = scanner.nextLine();
-
-
             switch (choix) {
+                case "0":
+                    quitter = true;
+                    break;
                 case "1":
                     test.afficherClients();
                     break;
@@ -66,9 +69,6 @@ public class Main {
                     break;
                 case "7":
                     test.rechercherReservationParIDVehicule();
-                    break;
-                case "0":
-                    quitter = true;
                     break;
                 case "8":
                     test.ajouterClient();
@@ -94,6 +94,6 @@ public class Main {
                 default:
                     System.out.println("Erreur, paramètre non correct");
             }
-        }while(!quitter);
+        } while (!quitter);
     }
 }

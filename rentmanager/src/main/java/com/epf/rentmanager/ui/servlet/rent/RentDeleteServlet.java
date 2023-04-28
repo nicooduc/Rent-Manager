@@ -1,8 +1,8 @@
-package com.epf.rentmanager.ui.servlet;
+package com.epf.rentmanager.ui.servlet.rent;
 
 import com.epf.rentmanager.exception.ServiceException;
-import com.epf.rentmanager.model.Vehicle;
-import com.epf.rentmanager.service.VehicleService;
+import com.epf.rentmanager.model.Reservation;
+import com.epf.rentmanager.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -13,11 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/vehicles/delete")
-public class VehicleDeleteServlet extends HttpServlet {
-    //private static final long serialVersionUID = 1L; //delete if everything still work
+@WebServlet("/rents/delete")
+public class RentDeleteServlet extends HttpServlet {
     @Autowired
-    VehicleService vehicleService;
+    ReservationService reservationService;
 
     @Override
     public void init() throws ServletException {
@@ -26,14 +25,12 @@ public class VehicleDeleteServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Vehicle vehicle = new Vehicle(Integer.parseInt(req.getParameter("id")));
-
+        Reservation reservation = new Reservation(Integer.parseInt(req.getParameter("id")));
         try {
-            this.vehicleService.delete(vehicle);
+            this.reservationService.delete(reservation);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-
-        resp.sendRedirect("/rentmanager/vehicles");
+        resp.sendRedirect("/rentmanager/rents");
     }
 }

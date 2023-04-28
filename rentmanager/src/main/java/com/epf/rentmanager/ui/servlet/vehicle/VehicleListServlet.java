@@ -1,4 +1,4 @@
-package com.epf.rentmanager.ui.servlet;
+package com.epf.rentmanager.ui.servlet.vehicle;
 
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.service.VehicleService;
@@ -27,13 +27,11 @@ public class VehicleListServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         try {
             req.setAttribute("vehicles", this.vehicleService.findAll());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
-
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/vehicles/list.jsp").forward(req, resp);
     }
 }

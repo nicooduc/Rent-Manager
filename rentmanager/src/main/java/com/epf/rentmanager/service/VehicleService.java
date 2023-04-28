@@ -3,11 +3,11 @@ package com.epf.rentmanager.service;
 import java.util.List;
 
 import com.epf.rentmanager.exception.DaoException;
-import com.epf.rentmanager.dao.ReservationDao;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.exception.ConstraintException;
 import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.dao.VehicleDao;
+import com.epf.rentmanager.dao.ReservationDao;
 
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class VehicleService {
     private VehicleDao vehicleDao;
     private ReservationDao reservationDao;
 
-    public VehicleService(VehicleDao vehicleDao, ReservationDao reservationDao){
+    public VehicleService(VehicleDao vehicleDao, ReservationDao reservationDao) {
         this.vehicleDao = vehicleDao;
         this.reservationDao = reservationDao;
     }
@@ -48,7 +48,7 @@ public class VehicleService {
             } else if (vehicle.getNb_places() < 2 || vehicle.getNb_places() > 9) {
                 throw new ConstraintException("Le véhicule doit comporter entre 2 et 9 places");
             } else {
-                    return this.vehicleDao.update(vehicle);
+                return this.vehicleDao.update(vehicle);
             }
         } catch (DaoException e) {
             e.printStackTrace();

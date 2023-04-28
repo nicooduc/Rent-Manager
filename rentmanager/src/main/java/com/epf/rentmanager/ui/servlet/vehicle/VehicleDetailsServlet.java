@@ -1,10 +1,8 @@
-package com.epf.rentmanager.ui.servlet;
+package com.epf.rentmanager.ui.servlet.vehicle;
 
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Reservation;
-import com.epf.rentmanager.model.Vehicle;
-import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +19,8 @@ import java.util.List;
 
 @WebServlet("/vehicles/details")
 public class VehicleDetailsServlet extends HttpServlet {
-    //private static final long serialVersionUID = 1L; //delete if everything still work
     @Autowired
     VehicleService vehicleService;
-    @Autowired
-    ClientService clientService;
     @Autowired
     ReservationService reservationService;
 
@@ -34,14 +29,13 @@ public class VehicleDetailsServlet extends HttpServlet {
         super.init();
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
+
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int vehicleId = Integer.parseInt(req.getParameter("id"));
-
         try {
             List<Reservation> reservation = this.reservationService.findResaByVehicleId(vehicleId);
-            List<Client> clients = new ArrayList<>();;
+            List<Client> clients = new ArrayList<>();
             for (Reservation r : reservation) {
-                r.setClient(this.clientService.findById(r.getClient().getId()));
                 if (!clients.contains(r.getClient())) {
                     clients.add(r.getClient());
                 }
@@ -52,7 +46,6 @@ public class VehicleDetailsServlet extends HttpServlet {
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/vehicles/details.jsp").forward(req, resp);
     }
 }
