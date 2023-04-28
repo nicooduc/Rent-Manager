@@ -21,11 +21,11 @@ public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	private VehicleService vehicleService;
+	VehicleService vehicleService;
 	@Autowired
-	private ClientService clientService;
+	ClientService clientService;
 	@Autowired
-	private ReservationService reservationService;
+	ReservationService reservationService;
 
 	@Override
 	public void init() throws ServletException {

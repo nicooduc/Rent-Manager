@@ -16,7 +16,8 @@ import java.io.IOException;
 public class UserListServlet extends HttpServlet {
     //private static final long serialVersionUID = 1L; //delete if everything still work
     @Autowired
-    private ClientService clientService;
+    ClientService clientService;
+
     @Override
     public void init() throws ServletException {
         super.init();

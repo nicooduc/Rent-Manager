@@ -1,6 +1,8 @@
 package com.epf.rentmanager.ui.servlet;
 
+import com.epf.rentmanager.exception.ConstraintException;
 import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -12,28 +14,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/vehicles")
-public class VehicleListServlet extends HttpServlet {
-
-    private static final long serialVersionUID = 1L;
-
+@WebServlet("/vehicles/create")
+public class VehicleCreateServlet extends HttpServlet {
+    //private static final long serialVersionUID = 1L; //delete if everything still work
     @Autowired
     VehicleService vehicleService;
-
     @Override
     public void init() throws ServletException {
         super.init();
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
-
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.getServletContext().getRequestDispatcher("/WEB-INF/views/vehicles/create.jsp").forward(req, resp);
+    }
+
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Vehicle vehicle = new Vehicle(0, req.getParameter("constructeur"), req.getParameter("modele"), Integer.parseInt(req.getParameter("nb_places")));
 
         try {
-            req.setAttribute("vehicles", this.vehicleService.findAll());
+            this.vehicleService.create(vehicle);
         } catch (ServiceException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+        } catch (ConstraintException e) {
+            req.setAttribute("error", e); //TODO display error
+            e.printStackTrace();
         }
 
-        this.getServletContext().getRequestDispatcher("/WEB-INF/views/vehicles/list.jsp").forward(req, resp);
+        resp.sendRedirect("/rentmanager/vehicles");
     }
 }

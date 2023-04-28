@@ -16,7 +16,7 @@
         <section class="content-header">
             <h1>
                 Voitures
-                <a class="btn btn-primary" href="${pageContext.request.contextPath}/cars/create">Ajouter</a>
+                <a class="btn btn-primary" href="${pageContext.request.contextPath}/vehicles/create">Ajouter</a>
             </h1>
         </section>
 
@@ -41,13 +41,13 @@
                                         <td>${vehicle.modele}</td>
                                         <td>${vehicle.nb_places}</td>
                                         <td>
-                                            <a class="btn btn-primary disabled" href="car-detail.html">
+                                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/vehicles/details?id=${vehicle.id}">
                                                 <i class="fa fa-play"></i>
                                             </a>
-                                            <a class="btn btn-success disabled" href="#">
+                                            <a class="btn btn-success" href="${pageContext.request.contextPath}/vehicles/update?id=${vehicle.id}">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <a class="btn btn-danger disabled" href="#">
+                                            <a class="btn btn-danger" href="${pageContext.request.contextPath}/vehicles/delete?id=${vehicle.id}">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </td>

@@ -22,11 +22,12 @@ import java.util.List;
 public class UserDetailsServlet extends HttpServlet {
     //private static final long serialVersionUID = 1L; //delete if everything still work
     @Autowired
-    private ClientService clientService;
+    ClientService clientService;
     @Autowired
-    private ReservationService reservationService;
+    ReservationService reservationService;
     @Autowired
-    private VehicleService vehicleService;
+    VehicleService vehicleService;
+
     @Override
     public void init() throws ServletException {
         super.init();

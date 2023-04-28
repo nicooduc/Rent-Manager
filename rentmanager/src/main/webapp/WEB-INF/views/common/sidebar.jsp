@@ -12,7 +12,7 @@
                 </a>
             </li>
             <li>
-                <a href="${pageContext.request.contextPath}/cars">
+                <a href="${pageContext.request.contextPath}/vehicles">
                     <i class="fa fa-car"></i> <span>Voitures</span>
                 </a>
             </li>

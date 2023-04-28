@@ -2,8 +2,8 @@ package com.epf.rentmanager.ui.servlet;
 
 import com.epf.rentmanager.exception.ConstraintException;
 import com.epf.rentmanager.exception.ServiceException;
-import com.epf.rentmanager.model.Client;
-import com.epf.rentmanager.service.ClientService;
+import com.epf.rentmanager.model.Vehicle;
+import com.epf.rentmanager.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -13,51 +13,46 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 
-@WebServlet("/users/update")
-public class UserUpdateServlet extends HttpServlet {
+@WebServlet("/vehicles/update")
+public class VehicleUpdateServlet extends HttpServlet {
     //private static final long serialVersionUID = 1L; //delete if everything still work
     @Autowired
-    ClientService clientService;
-    int clientId;
-    Client client = new Client();
+    VehicleService vehicleService;
+    int vehicleId;
+    Vehicle vehicle = new Vehicle();
     @Override
     public void init() throws ServletException {
         super.init();
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        clientId = Integer.parseInt(req.getParameter("id"));
+        vehicleId = Integer.parseInt(req.getParameter("id"));
         try {
-            client = this.clientService.findById(clientId);
-            req.setAttribute("client", client);
+            vehicle = this.vehicleService.findById(vehicleId);
+            req.setAttribute("vehicle", vehicle);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/update.jsp").forward(req, resp);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/views/vehicles/update.jsp").forward(req, resp);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String lastname = req.getParameter("lastname");
-        String firstname = req.getParameter("firstname");
-        String email = req.getParameter("email");
-        String birthdate = req.getParameter("birthdate");
-        if (!lastname.isEmpty()) {
-            client.setNom(lastname);
+        String constructeur = req.getParameter("constructeur");
+        String modele = req.getParameter("modele");
+        String nb_places = req.getParameter("nb_places");
+        if (!constructeur.isEmpty()) {
+            vehicle.setConstructeur(constructeur);
         }
-        if (!firstname.isEmpty()) {
-            client.setPrenom(firstname);
+        if (!modele.isEmpty()) {
+            vehicle.setModele(modele);
         }
-        if (!email.isEmpty()) {
-            client.setEmail(email);
-        }
-        if (!birthdate.isEmpty()) {
-            client.setNaissance(LocalDate.parse(birthdate));
+        if (!nb_places.isEmpty()) {
+            vehicle.setNb_places(Integer.parseInt(nb_places));
         }
 
         try {
-            this.clientService.update(client);
+            this.vehicleService.update(vehicle);
         } catch (ServiceException e) {
             e.printStackTrace();
         } catch (ConstraintException e) {
@@ -65,6 +60,6 @@ public class UserUpdateServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        resp.sendRedirect("/rentmanager/users");
+        resp.sendRedirect("/rentmanager/vehicles");
     }
 }

@@ -19,7 +19,7 @@ public class RentListServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Autowired
-    private ReservationService rentService;
+    ReservationService rentService;
 
     @Override
     public void init() throws ServletException {

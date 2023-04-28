@@ -15,7 +15,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Utilisateurs
+                Voitures
             </h1>
         </section>
 
@@ -29,31 +29,24 @@
                         <form class="form-horizontal" method="post">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="lastname" class="col-sm-2 control-label">Nom</label>
+                                    <label for="constructeur" class="col-sm-2 control-label">Marque</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="lastname" name="lastname" placeholder=${client.nom}>
+                                        <input type="text" class="form-control" id="constructeur" name="constructeur" placeholder=${vehicle.constructeur}>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="firstname" class="col-sm-2 control-label">Prenom</label>
+                                    <label for="modele" class="col-sm-2 control-label">Modele</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="firstname" name="firstname" placeholder=${client.prenom}>
+                                        <input type="text" class="form-control" id="modele" name="modele" placeholder=${vehicle.modele}>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="email" class="col-sm-2 control-label">Email</label>
+                                    <label for="nb_places" class="col-sm-2 control-label">Nombre de places</label>
 
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder=${client.email}>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="birthdate" class="col-sm-2 control-label">Date de naissance</label>
-
-                                    <div class="col-sm-10">
-                                        <input type="date" class="form-control" id="birthdate" name="birthdate">
+                                        <input type="number" class="form-control" id="nb_places" name="nb_places" placeholder=${vehicle.nb_places}>
                                     </div>
                                 </div>
                             </div>

@@ -17,8 +17,9 @@ public class VehicleService {
     private VehicleDao vehicleDao;
     private ReservationDao reservationDao;
 
-    public VehicleService(VehicleDao vehicleDao){
+    public VehicleService(VehicleDao vehicleDao, ReservationDao reservationDao){
         this.vehicleDao = vehicleDao;
+        this.reservationDao = reservationDao;
     }
 
     public long create(Vehicle vehicle) throws ServiceException, ConstraintException {
